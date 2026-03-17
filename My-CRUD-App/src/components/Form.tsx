@@ -1,0 +1,269 @@
+import { useState } from "react";
+
+export default function Form() {
+
+    const [fName, setFName] = useState<string>("");
+    const [lName, setLName] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [phone, setPhone] = useState<string>("");
+    const [gender, setGender] = useState<string>("");
+    const [hobby, setHobby] = useState<string[]>([]);
+    const [city, setCity] = useState<string>("");
+    const [address, setAddress] = useState<string>("");
+
+    const allHobby = ["Reading", "Gaming", "Sports", "Music", "Other"];
+    const allCity = ["Surat", "Rajkot", "Mumbai", "UP", "Bihar"];
+
+    const getStudentHobby = (event: any) => {
+        console.log(event.target.value);
+
+        const data = event.target.value; // Music
+        const isChecked = event.target.checked;
+
+        console.log(isChecked);
+        // const myAllHobby = [...hobby, data] // [Reading]
+
+        // console.log("Array : ", myAllHobby);
+
+
+        // setHobby(myAllHobby);
+
+        // setHobby([...hobby, data]);
+        if (isChecked) {
+            setHobby(abc => [...abc, data]);
+        } else {
+            setHobby(hobby => hobby.filter((myHobby) => myHobby !== data));
+
+            // [Reading, Gaming, Music]
+
+            // [Gaming]
+
+            // Music !== Music
+        }
+    }
+
+    const studemtFormSubmit = (event: any) => {
+
+        event.preventDefault(); // Event
+
+
+        if (fName == "") {
+            alert("First Name is required...");
+            return;
+        }
+
+        if (lName == "") {
+            alert("Last Name is required...");
+            return;
+        }
+
+        console.log("Form Submit");
+        console.log("First Name : ", fName);
+        console.log("Last Name : ", lName);
+        console.log("Email : ", email);
+        console.log("Phone : ", phone);
+        console.log("Gender : ", gender);
+        console.log("Hobby : ", hobby);
+        console.log("City : ", city);
+        console.log("Address : ", address);
+
+
+    }
+
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-3xl mx-auto">
+                {/* Header Section */}
+                <div className="text-center mb-10">
+                    <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-2">
+                        My Students {fName}
+                    </h1>
+                    <p className="text-gray-600 text-lg">Add new student information below</p>
+                    <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                {/* Form Card */}
+                <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    {/* Form Header */}
+                    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-4">
+                        <h2 className="text-white text-xl font-semibold">Student Registration Form</h2>
+                        <p className="text-blue-100 text-sm mt-1">Please {fName} fill all the required fields</p>
+                    </div>
+
+                    {/* Form Body */}
+                    <form className="p-8 space-y-6" onSubmit={studemtFormSubmit}>
+                        {/* Grid Layout for Name Fields */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* First Name */}
+                            <div className="space-y-2">
+                                <label className="block text-sm font-semibold text-gray-700">
+                                    First Name <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    id="f_name"
+                                    onChange={(event) => setFName(event.target.value)}
+                                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 outline-none bg-gray-50 hover:bg-white"
+                                    placeholder="Enter first name"
+                                />
+                            </div>
+
+                            {/* Last Name */}
+                            <div className="space-y-2">
+                                <label className="block text-sm font-semibold text-gray-700">
+                                    Last Name <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    id="l_name"
+                                    onChange={(event) => setLName(event.target.value)}
+                                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 outline-none bg-gray-50 hover:bg-white"
+                                    placeholder="Enter last name"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Contact Information */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* Email */}
+                            <div className="space-y-2">
+                                <label className="block text-sm font-semibold text-gray-700">
+                                    Email Address <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    onChange={(event) => setEmail(event.target.value)}
+                                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 outline-none bg-gray-50 hover:bg-white"
+                                    placeholder="student@example.com"
+                                />
+                            </div>
+
+                            {/* Phone */}
+                            <div className="space-y-2">
+                                <label className="block text-sm font-semibold text-gray-700">
+                                    Phone Number <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    onChange={(event) => setPhone(event.target.value)}
+                                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 outline-none bg-gray-50 hover:bg-white"
+                                    placeholder="+1 234 567 890"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Gender Radio Buttons */}
+                        <div className="space-y-2">
+                            <label className="block text-sm font-semibold text-gray-700">
+                                Gender <span className="text-red-500">*</span>
+                            </label>
+                            <div className="flex flex-wrap gap-6 pt-2">
+                                <label className="flex items-center space-x-3 cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        name="gender"
+                                        value="Male"
+                                        onChange={(event) => setGender(event.target.value)}
+                                        className="w-5 h-5 text-blue-600 focus:ring-blue-500 border-gray-300"
+                                    />
+                                    <span className="text-gray-700">Male</span>
+                                </label>
+                                <label className="flex items-center space-x-3 cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        name="gender"
+                                        value="Female"
+                                        onChange={(event) => setGender(event.target.value)}
+                                        className="w-5 h-5 text-blue-600 focus:ring-blue-500 border-gray-300"
+                                    />
+                                    <span className="text-gray-700">Female</span>
+                                </label>
+                                <label className="flex items-center space-x-3 cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        name="gender"
+                                        value="Other"
+                                        onChange={(event) => setGender(event.target.value)}
+                                        className="w-5 h-5 text-blue-600 focus:ring-blue-500 border-gray-300"
+                                    />
+                                    <span className="text-gray-700">Other</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        {/* Hobby Checkboxes */}
+                        <div className="space-y-2">
+                            <label className="block text-sm font-semibold text-gray-700">
+                                Hobbies
+                            </label>
+                            <div className="flex flex-wrap gap-6 pt-2">
+
+                                {allHobby.map((myHobby, index) => {
+                                    return <label key={index} className="flex items-center space-x-3 cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            value={myHobby}
+                                            onChange={getStudentHobby}
+                                            className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500 border-gray-300"
+                                        />
+                                        <span className="text-gray-700">{myHobby}</span>
+                                    </label>
+                                })}
+
+                            </div>
+                        </div>
+
+                        {/* City Select */}
+                        <div className="space-y-2">
+                            <label className="block text-sm font-semibold text-gray-700">
+                                City <span className="text-red-500">*</span>
+                            </label>
+                            <select
+                                id="city"
+                                onChange={(event) => setCity(event.target.value)}
+                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 outline-none bg-gray-50 hover:bg-white cursor-pointer"
+                            >
+                                <option value="select">Select a city</option>
+                                {allCity.map((myCity, index) => {
+                                    return <option key={index} value={myCity}>{myCity}</option>
+                                })}
+
+                            </select>
+                        </div>
+
+                        {/* Address Textarea */}
+                        <div className="space-y-2">
+                            <label className="block text-sm font-semibold text-gray-700">
+                                Address
+                            </label>
+                            <textarea
+                                id="address"
+                                rows={4}
+                                onChange={(event) => setAddress(event.target.value)}
+                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 outline-none bg-gray-50 hover:bg-white resize-none"
+                                placeholder="Enter full address"
+                            ></textarea>
+                        </div>
+
+                        {/* Submit Button */}
+                        <div className="pt-4">
+                            <button
+                                type="submit"
+                                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:from-blue-700 hover:to-indigo-700 focus:ring-4 focus:ring-blue-300 transition duration-300 transform hover:scale-[1.02] shadow-lg"
+                            >
+                                Add Student
+                            </button>
+                        </div>
+
+                        {/* Required Fields Note */}
+                        <p className="text-xs text-gray-400 text-center mt-4">
+                            <span className="text-red-500">*</span> Required fields
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
+}
