@@ -11,6 +11,8 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <NavBar />
         {children}
+
+        
       </body>
     </html>
   );

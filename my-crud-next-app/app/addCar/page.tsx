@@ -1,21 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { formCarDataType } from "../utils/type";
 
 export default function AddCar() {
   const carBrand = ["TATA", "Maruti Suzuki", "Mahindra", "Kia", "MG Motor", "Toyota"];
   const carColor = ["Black", "White", "Yellow", "Red", "Green", "Custom"];
   const carFuel = ["Petrol", "Diesel", "EV", "CNG", "Hybrid"];
 
-  type formCarDataType = {
-    id: number,
-    carName: string,
-    carModel: string,
-    carPrice: number,
-    carBrand: string,
-    carColor: string[],
-    carFuel: string
-  }
+  
 
   const [formCarData, setFormCarData] = useState<formCarDataType>({
     id: Math.floor(Math.random() * 10000),
@@ -27,13 +20,92 @@ export default function AddCar() {
     carFuel: ""
   });
 
+  const [errorForm, setErrorForm] = useState<any>({});
+
+  const [allCars, setAllCars] = useState<formCarDataType[]>(JSON.parse(localStorage.getItem('cars') || '[]'));
+
+  useEffect(() => {
+    localStorage.setItem('cars', JSON.stringify(allCars));
+  }, [allCars]);
+
   const onSubmit = (event: any) => {
 
     event.preventDefault();
 
     console.log("Form Submit.....");
-    console.log("Car : ", formCarData);
+    if (!validation()) {
+      return;
+    };
 
+    console.log("Car : ", formCarData);
+    setAllCars(cars => [...cars, formCarData]);
+
+    
+    // [{}, {}, {}]
+
+    // Reset Form
+    setFormCarData({
+      id: Math.floor(Math.random() * 10000),
+      carName: "",
+      carModel: "",
+      carPrice: 0,
+      carBrand: "",
+      carColor: [],
+      carFuel: ""
+    });
+
+  }
+
+  const onHandleChange = (event: any) => {
+
+    // console.log(event.target.value); // "Swift"
+    // console.log(event.target.name); // carName
+
+    const { name, value } = event.target;
+
+
+    setFormCarData(carData => ({ ...carData, [name]: (name === 'carPrice') ? Number(value) : value }));
+  }
+
+  const onColorChange = (event: any) => {
+    const { value, checked } = event.target;
+
+    setFormCarData(carData => ({ ...carData, carColor: (checked) ? [...carData.carColor, value] : carData.carColor.filter((color) => color !== value) }))  // White !== White
+
+  }
+
+  const validation = () => {
+    const error: any = {};
+
+    if (!formCarData.carName.trim()) {
+      error.carName = "car name is required...";
+    }
+
+    if (!formCarData.carModel.trim()) {
+      error.carModel = "car model is required...";
+    }
+
+    if (!formCarData.carPrice) {
+      error.carPrice = "car price is required...";
+    } else if (formCarData.carPrice <= 0) {
+      error.carPrice = "car price is invalid...";
+    }
+
+    if (!formCarData.carBrand.trim()) {
+      error.carBrand = "car brand is required...";
+    }
+
+    if (formCarData.carColor.length === 0) {
+      error.carColor = "car color is required...";
+    }
+
+    if (!formCarData.carFuel.trim()) {
+      error.carFuel = "car fuel is required...";
+    }
+
+    setErrorForm(error);
+
+    return Object.keys(error).length === 0; // false
   }
 
   return (
@@ -57,9 +129,12 @@ export default function AddCar() {
                 type="text"
                 name="carName"
                 id="carName"
+                value={formCarData.carName}
+                onChange={onHandleChange}
                 placeholder="e.g., Swift, City, Nexon"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200"
+                className={`w-full px-4 py-3 border ${errorForm.carName ? 'border-red-600' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200`}
               />
+              {errorForm.carName && <p className="text-red-600 text-sm">{errorForm.carName}</p>}
             </div>
 
             {/* Car Model */}
@@ -71,9 +146,12 @@ export default function AddCar() {
                 type="text"
                 name="carModel"
                 id="carModel"
+                value={formCarData.carModel}
+                onChange={onHandleChange}
                 placeholder="e.g., ZXI, VXI, Top End"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200"
               />
+              {errorForm.carModel && <p className="text-red-600 text-sm">{errorForm.carModel}</p>}
             </div>
 
             {/* Car Price */}
@@ -85,9 +163,12 @@ export default function AddCar() {
                 type="number"
                 name="carPrice"
                 id="carPrice"
+                value={formCarData.carPrice}
+                onChange={onHandleChange}
                 placeholder="e.g., 500000"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200"
               />
+              {errorForm.carPrice && <p className="text-red-600 text-sm">{errorForm.carPrice}</p>}
             </div>
 
             {/* Car Brand */}
@@ -98,6 +179,8 @@ export default function AddCar() {
               <select
                 name="carBrand"
                 id="carBrand"
+                value={formCarData.carBrand}
+                onChange={onHandleChange}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 bg-white"
               >
                 <option value="">Select a brand</option>
@@ -105,6 +188,7 @@ export default function AddCar() {
                   return <option key={index} value={brand}>{brand}</option>
                 })}
               </select>
+              {errorForm.carBrand && <p className="text-red-600 text-sm">{errorForm.carBrand}</p>}
             </div>
 
             {/* Car Color */}
@@ -120,12 +204,15 @@ export default function AddCar() {
                         type="checkbox"
                         name="carColor"
                         value={color}
+                        checked={formCarData.carColor.includes(color)}
+                        onChange={onColorChange}
                         className="w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                       />
                       <span className="text-gray-700 text-sm">{color}</span>
                     </label>
                   )
                 })}
+                {errorForm.carColor && <p className="text-red-600 text-sm">{errorForm.carColor}</p>}
               </div>
             </div>
 
@@ -142,6 +229,8 @@ export default function AddCar() {
                         type="radio"
                         name="carFuel"
                         value={fuel}
+                        checked={formCarData.carFuel === fuel}
+                        onChange={onHandleChange}
                         className="w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                       />
                       <span className="text-gray-700 text-sm">{fuel}</span>
@@ -149,6 +238,7 @@ export default function AddCar() {
                   )
                 })}
               </div>
+              {errorForm.carFuel && <p className="text-red-600 text-sm">{errorForm.carFuel}</p>}
             </div>
 
             {/* Submit Button */}
