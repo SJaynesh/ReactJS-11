@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { formCarDataType } from "../utils/type";
+import { toast } from "react-toastify";
 
 export default function AddCar() {
   const carBrand = ["TATA", "Maruti Suzuki", "Mahindra", "Kia", "MG Motor", "Toyota"];
   const carColor = ["Black", "White", "Yellow", "Red", "Green", "Custom"];
   const carFuel = ["Petrol", "Diesel", "EV", "CNG", "Hybrid"];
 
-  
+
 
   const [formCarData, setFormCarData] = useState<formCarDataType>({
     id: Math.floor(Math.random() * 10000),
@@ -25,7 +26,10 @@ export default function AddCar() {
   const [allCars, setAllCars] = useState<formCarDataType[]>(JSON.parse(localStorage.getItem('cars') || '[]'));
 
   useEffect(() => {
-    localStorage.setItem('cars', JSON.stringify(allCars));
+    if (allCars) {
+      localStorage.setItem('cars', JSON.stringify(allCars));
+    }
+
   }, [allCars]);
 
   const onSubmit = (event: any) => {
@@ -40,7 +44,9 @@ export default function AddCar() {
     console.log("Car : ", formCarData);
     setAllCars(cars => [...cars, formCarData]);
 
-    
+    toast.success("Car added successfully...");
+
+
     // [{}, {}, {}]
 
     // Reset Form

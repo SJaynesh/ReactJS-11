@@ -15,9 +15,13 @@ import {
   TrendingUp
 } from "lucide-react";
 import Link from "next/link";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function ViewCars() {
   const [allCars, setAllCars] = useState<formCarDataType[]>([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     const storedCars = localStorage.getItem('cars');
@@ -26,10 +30,23 @@ export default function ViewCars() {
     }
   }, []);
 
+  const deleteCar = (id: number) => {
+    console.log("Delete Car ID : ", id); // 2138
+
+    const deletedCarData = allCars.filter((car) => car.id !== id);
+    // 7684 !== 2138
+
+    setAllCars(deletedCarData);
+
+    localStorage.setItem('cars', JSON.stringify(deletedCarData));
+
+    toast.success("Car deleted successfully...");
+  }
+
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
@@ -88,9 +105,8 @@ export default function ViewCars() {
 
         {/* Add Car Button */}
         <div className="mb-6 flex justify-end">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200 shadow-md hover:shadow-lg">
-            <PlusCircle className="w-5 h-5" />
-            <Link href={'/addCar'}> Add New Car</Link>
+          <button onClick={() => router.push('/addCar')} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200 shadow-md hover:shadow-lg">
+            <PlusCircle className="w-5 h-5" /> Add New Car
           </button>
         </div>
 
@@ -98,7 +114,7 @@ export default function ViewCars() {
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gradient-to-r from-blue-600 to-blue-700">
+              <thead className="bg-linear-to-r from-blue-600 to-blue-700">
                 <tr>
                   <th className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">ID</th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">Car Name</th>
@@ -160,14 +176,16 @@ export default function ViewCars() {
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <div className="flex gap-2">
                             <button
-
+                              onClick={() => {
+                                router.push(`/editCar/${car.id}?name=${car.carName}`);
+                              }}
                               className="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 px-3 py-1 rounded-lg transition-colors duration-200 flex items-center gap-1"
                             >
                               <Edit className="w-4 h-4" />
                               Edit
                             </button>
                             <button
-
+                              onClick={() => deleteCar(car.id)}
                               className="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 px-3 py-1 rounded-lg transition-colors duration-200 flex items-center gap-1"
                             >
                               <Trash2 className="w-4 h-4" />

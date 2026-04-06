@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import NavBar from "./components/Navbar";
 import "./globals.css";
 
@@ -12,7 +13,7 @@ export default function RootLayout({
         <NavBar />
         {children}
 
-        
+        <ToastContainer />
       </body>
     </html>
   );
