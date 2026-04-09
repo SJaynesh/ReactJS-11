@@ -1,0 +1,23 @@
+{
+    "product": [
+        {
+            "id": 102,
+            "p_name": "iPhone 17",
+            "p_price": 80000,
+            "p_stock": 12,
+            "p_image": "iphone.png",
+            "p_category": "Electronic",
+            "p_description": "Meet the new iPhone 17. Designed with contoured edges, thinner borders and durable materials like Ceramic Shield 2 on the front, it looks — and stays — beautiful. You can see and do more of everything you love on a 15.93 cm (6.3″)"
+        },
+        {
+            "id": 985,
+            "p_name": "iPhone 18",
+            "p_price": 180000,
+            "p_stock": 1,
+            "p_image": "iphone18.png",
+            "p_category": "Electronic",
+            "p_description": "Meet the new iPhone 18. Designed with contoured edges, thinner borders and durable materials like Ceramic Shield 2 on the front, it looks — and stays — beautiful. You can see and do more of everything you love on a 15.93 cm (6.3″)"
+        }
+    ],
+    "cart": []
+}
