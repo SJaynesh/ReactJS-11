@@ -1,10 +1,13 @@
 import { useState } from "react";
 import type { productType } from "../utils/global";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 export default function AddProductPage() {
 
+    const navigate = useNavigate();
+
     const [productData, setProductData] = useState<productType>({
-        id: Math.floor(Math.random() * 10000),
         p_name: "",
         p_price: 0,
         p_stock: 0,
@@ -25,12 +28,23 @@ export default function AddProductPage() {
         setProductData(prev => ({ ...prev, [name]: (name === 'p_price' || name === 'p_stock') ? Number(value) : value }));
     }
 
-    const onSubmit = (event: any) => {
+    const onHandleSubmit = async (event: any) => {
         event.preventDefault();
+
+        if (!productData.p_name || productData.p_price === 0 || productData.p_stock === 0 || !productData.p_image || !productData.p_category || !productData.p_description) {
+            toast.error("All filds are required..");
+            return;
+        }
 
         console.log("Product Data : ", productData);
 
         // add product
+        await fetch("http://localhost:8000/product", {
+            method: "POST",
+            body: JSON.stringify(productData)
+        });
+
+        navigate('/view-product');
 
     }
     return (
@@ -46,7 +60,7 @@ export default function AddProductPage() {
             </div>
 
             {/* Form Card */}
-            <form className="space-y-6" onSubmit={onSubmit}>
+            <form className="space-y-6" onSubmit={onHandleSubmit}>
                 {/* Row 1: Product Name */}
                 <div>
                     <label className={labelClasses}>Product Name</label>

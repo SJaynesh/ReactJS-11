@@ -1,23 +1,60 @@
 {
-    "product": [
-        {
-            "id": 102,
-            "p_name": "iPhone 17",
-            "p_price": 80000,
-            "p_stock": 12,
-            "p_image": "iphone.png",
-            "p_category": "Electronic",
-            "p_description": "Meet the new iPhone 17. Designed with contoured edges, thinner borders and durable materials like Ceramic Shield 2 on the front, it looks — and stays — beautiful. You can see and do more of everything you love on a 15.93 cm (6.3″)"
-        },
-        {
-            "id": 985,
-            "p_name": "iPhone 18",
-            "p_price": 180000,
-            "p_stock": 1,
-            "p_image": "iphone18.png",
-            "p_category": "Electronic",
-            "p_description": "Meet the new iPhone 18. Designed with contoured edges, thinner borders and durable materials like Ceramic Shield 2 on the front, it looks — and stays — beautiful. You can see and do more of everything you love on a 15.93 cm (6.3″)"
-        }
-    ],
-    "cart": []
+  "product": [
+    {
+      "id": "rqAlCghbHGk",
+      "p_name": "iPhone 17",
+      "p_price": 60000,
+      "p_stock": 12,
+      "p_image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxnJNqQNr07AU50xgY2RCl6ra9B5WhxADSZA&s",
+      "p_category": "Electronic",
+      "p_description": "iPhone 17. Center Stage front camera. Latest-generation Ceramic Shield. 15.93 cm (6.3″) ProMotion display. A19 chip. Five gorgeous colours."
+    },
+    {
+      "p_name": "T-Shirt",
+      "p_price": 500,
+      "p_stock": 20,
+      "p_image": "https://veirdo.in/cdn/shop/files/Artboard_20_16.jpg?v=1758343737",
+      "p_category": "Fashion",
+      "p_description": "Try This Self Design Men Zip Neck Dark Green T-Shirt. 999 ₹298. 70% off. 3.9. ☆. Try This Colorblock Men Polo Neck White T-Shirt",
+      "id": "kmvjsvCbzJA"
+    },
+    {
+      "p_name": "Blue Striped & Floral Embroidered Cushion Cover",
+      "p_price": 200,
+      "p_stock": 50,
+      "p_image": "https://www.purehomeandliving.com/cdn/shop/files/8907895163716_1_e70c7ee6-2092-47b2-9027-930d9885eadd.jpg?v=1772106329&width=400",
+      "p_category": "Home & Living",
+      "p_description": "This cushion cover brings together the best of both worlds, evergreen stripes and classic florals, to give your home an elegant makeover. ",
+      "id": "CVX_pe20zMU"
+    },
+    {
+      "p_name": "Set of 2 Light Amber Ombre Ribbed Drinking Glasses",
+      "p_price": 2000,
+      "p_stock": 25,
+      "p_image": "https://www.purehomeandliving.com/cdn/shop/files/8907895153946_1.jpg?v=1754569056&width=400",
+      "p_category": "Home & Living",
+      "p_description": "These amber-toned drinking glasses feature a unique faceted base and vertical ribbed texture that enhances grip and visual appeal. Their elegant ombré gradient adds a warm, contemporary flair to everyday sipping.",
+      "id": "kKbM4LP7iVc"
+    },
+    {
+      "p_name": " Mountain Bike with Front Suspension",
+      "p_price": 6514,
+      "p_stock": 5,
+      "p_image": "https://m.media-amazon.com/images/I/81Nm8hF59qL._SL1500_.jpg",
+      "p_category": "Sports",
+      "p_description": "Ideal For: 12+ Years | Min Rider Height: 5FT | Max Rider Height: 5.10FT",
+      "id": "q5wT4ipLtf8"
+    },
+    {
+      "p_name": "SG Ecolite RH Batting Gloves",
+      "p_price": 1000,
+      "p_stock": 97,
+      "p_image": "https://m.media-amazon.com/images/I/61N2a92STML._SL1024_.jpg",
+      "p_category": "Sports",
+      "p_description": "Premium PVC finger rolls and dual density foam finger rolls\nCotton gusset for ventilation\nPalm made from cotton and PVC\nSuitable Right Hand Batsmen\nColor May Vary",
+      "id": "DLiOu7GgTAs"
+    }
+  ],
+  "cart": [],
+  "$schema": "./node_modules/json-server/schema.json"
 }
