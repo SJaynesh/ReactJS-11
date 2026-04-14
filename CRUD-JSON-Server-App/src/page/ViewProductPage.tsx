@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import type { productFetchType } from "../utils/global";
 import { deleteProduct, fetchAllProducts } from "../Services/ProductService";
+import { useNavigate } from "react-router";
 
 export default function ViewProductPage() {
     const [allProducts, setAllProduct] = useState<productFetchType[]>([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         getAllProducts();
@@ -80,7 +83,7 @@ export default function ViewProductPage() {
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex justify-center items-center gap-2">
-                                                <button className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all" title="Edit">
+                                                <button onClick={() => navigate(`/edit-product/${product.id}`)} className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all" title="Edit">
                                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-5M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4L16.5 3.5z" />
                                                     </svg>

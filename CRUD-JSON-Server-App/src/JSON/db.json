@@ -3,8 +3,8 @@
     {
       "id": "rqAlCghbHGk",
       "p_name": "iPhone 17",
-      "p_price": 60000,
-      "p_stock": 12,
+      "p_price": 70000,
+      "p_stock": 10,
       "p_image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxnJNqQNr07AU50xgY2RCl6ra9B5WhxADSZA&s",
       "p_category": "Electronic",
       "p_description": "iPhone 17. Center Stage front camera. Latest-generation Ceramic Shield. 15.93 cm (6.3″) ProMotion display. A19 chip. Five gorgeous colours."
@@ -28,8 +28,8 @@
       "id": "CVX_pe20zMU"
     },
     {
-      "p_name": "LG Smart Android Digital Powerful TV",
-      "p_price": 42000,
+      "p_name": "LG Smart Android Digital TV",
+      "p_price": 40000,
       "p_stock": 15,
       "p_image": "https://www.lg.com/content/dam/channel/wcms/in/images/tvs/g4-2024-gallery/65/new/OLED65G46LA-DZ-3.jpg/jcr:content/renditions/thum-1600x1062.jpeg?w=800",
       "p_category": "Electronic",

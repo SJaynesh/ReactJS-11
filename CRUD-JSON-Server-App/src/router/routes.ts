@@ -5,6 +5,7 @@ import AddProdutPage from "../page/AddProductPage";
 import ViewProductPage from "../page/ViewProductPage";
 import NotFoundPage from "../page/NotFoundPage";
 import EditProductPage from "../page/EditProductPage";
+import ProductDetailPage from "../page/ProductDetailPage";
 
 export const router = createBrowserRouter([
     {
@@ -24,8 +25,12 @@ export const router = createBrowserRouter([
                 Component: ViewProductPage
             },
             {
-                path: "edit-product/:id",
+                path: "edit-product/:productId",
                 Component: EditProductPage
+            },
+            {
+                path: 'product-detail/:productId',
+                Component: ProductDetailPage
             },
             {
                 path: "*",

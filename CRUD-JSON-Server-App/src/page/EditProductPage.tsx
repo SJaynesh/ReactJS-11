@@ -1,18 +1,21 @@
-import { useState } from "react";
-import type { productType } from "../utils/global";
+import { useEffect, useState } from "react";
+import { type productFetchType } from "../utils/global";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router";
-import { addProduct } from "../Services/ProductService";
+import { useNavigate, useParams } from "react-router";
+import { fetchSingleProduct, updateProduct } from "../Services/ProductService";
 
 export default function EditProductPage() {
 
+    const { productId } = useParams();
     const navigate = useNavigate();
 
-    const [productData, setProductData] = useState<productType>({
+
+    const [productData, setProductData] = useState<productFetchType>({
+        id: "",
         p_name: "",
         p_price: 0,
         p_stock: 0,
-        p_image: "",
+        p_image: "abc",
         p_category: "",
         p_description: "",
     });
@@ -22,6 +25,18 @@ export default function EditProductPage() {
     // Shared Tailwind classes for consistent styling
     const labelClasses = "block text-sm font-semibold text-slate-700 mb-1.5";
     const inputClasses = "w-full rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 transition-all focus:border-indigo-500 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 placeholder:text-slate-400";
+
+    useEffect(() => {
+        if (productId) {
+            getSingleProductData();
+        }
+    }, [productId]);
+
+    async function getSingleProductData() {
+        const data = await fetchSingleProduct(productId || "");
+
+        setProductData(data);
+    }
 
     const onHandleChange = (event: any) => {
         const { name, value } = event.target;
@@ -39,8 +54,9 @@ export default function EditProductPage() {
 
         console.log("Product Data : ", productData);
 
-        // add product
-        const status = await addProduct(productData);
+        // update product
+
+        const status = await updateProduct(productData);
 
         if (status) {
             navigate('/view-product');
@@ -52,7 +68,7 @@ export default function EditProductPage() {
             {/* Page Header */}
             <div className="mb-8 border-b border-slate-100 pb-5">
                 <h1 className="text-3xl font-bold tracking-tight text-slate-900">
-                    Add New Product
+                    Update Product
                 </h1>
                 <p className="mt-2 text-slate-500">
                     Fill in the details below to list a new item in your inventory.
@@ -67,6 +83,7 @@ export default function EditProductPage() {
                     <input
                         type="text"
                         name="p_name"
+                        value={productData.p_name}
                         onChange={onHandleChange}
                         placeholder="e.g. Wireless Noise Cancelling Headphones"
                         className={inputClasses}
@@ -80,6 +97,7 @@ export default function EditProductPage() {
                         <input
                             type="number"
                             name="p_price"
+                            value={productData.p_price}
                             onChange={onHandleChange}
                             placeholder="0.00"
                             className={inputClasses}
@@ -90,6 +108,7 @@ export default function EditProductPage() {
                         <input
                             type="number"
                             name="p_stock"
+                            value={productData.p_stock}
                             onChange={onHandleChange}
                             placeholder="Quantity available"
                             className={inputClasses}
@@ -104,15 +123,18 @@ export default function EditProductPage() {
                         <input
                             type="text"
                             name="p_image"
+                            value={productData.p_image}
                             onChange={onHandleChange}
                             placeholder="https://images.com/product.jpg"
                             className={inputClasses}
                         />
+
+                        <img src={productData.p_image} width={100} alt="" />
                     </div>
                     <div>
                         <label className={labelClasses}>Product Category</label>
                         <div className="relative">
-                            <select name="p_category" onChange={onHandleChange} className={`${inputClasses} appearance-none cursor-pointer`}>
+                            <select name="p_category" value={productData.p_category} onChange={onHandleChange} className={`${inputClasses} appearance-none cursor-pointer`}>
                                 <option value="">Select a category</option>
                                 {productCategory.map((category, index) => (
                                     <option key={index} value={category}>{category}</option>
@@ -134,6 +156,7 @@ export default function EditProductPage() {
                     <textarea
                         name="p_description"
                         rows={4}
+                        value={productData.p_description}
                         onChange={onHandleChange}
                         placeholder="Describe the product's features and benefits..."
                         className={`${inputClasses} resize-none`}
@@ -150,9 +173,9 @@ export default function EditProductPage() {
                     </button>
                     <button
                         type="submit"
-                        className="rounded-xl bg-indigo-600 px-8 py-2.5 text-sm font-bold text-white shadow-lg shadow-indigo-200 transition-all hover:bg-indigo-700 active:scale-95"
+                        className="rounded-xl bg-yellow-600 px-8 py-2.5 text-sm font-bold text-white shadow-lg shadow-yellow-200 transition-all hover:bg-yellow-700 active:scale-95"
                     >
-                        Create Product
+                        Update Product
                     </button>
                 </div>
             </form>
