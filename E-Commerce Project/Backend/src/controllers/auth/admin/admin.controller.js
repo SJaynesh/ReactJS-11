@@ -55,13 +55,13 @@ module.exports.loginAdmin = async (req, res) => {
         console.log(admin);
 
         if (!admin) {
-            return res.status(statusCode.BAD_REQUEST).json(errorResponse(statusCode.BAD_REQUEST, true, MSG.ADMIN_NOT_FOUND));
+            return res.json(errorResponse(statusCode.BAD_REQUEST, true, MSG.ADMIN_NOT_FOUND));
         }
 
         const isPassword = await bcrypt.compare(req.body.password, admin.password);
 
         if (!isPassword) {
-            return res.status(statusCode.BAD_REQUEST).json(errorResponse(statusCode.BAD_REQUEST, true, MSG.ADMIN_LOGIN_FAILED));
+            return res.json(errorResponse(statusCode.BAD_REQUEST, true, MSG.ADMIN_LOGIN_FAILED));
         }
 
         // JWT Token
@@ -74,7 +74,7 @@ module.exports.loginAdmin = async (req, res) => {
 
         console.log(token);
 
-        return res.status(statusCode.OK).json(successResponse(statusCode.OK, false, MSG.ADMIN_LOGIN_SUCCESS, { token }));
+        return res.json(successResponse(statusCode.OK, false, MSG.ADMIN_LOGIN_SUCCESS, { token }));
 
     } catch (err) {
         console.log("Error : ", err);

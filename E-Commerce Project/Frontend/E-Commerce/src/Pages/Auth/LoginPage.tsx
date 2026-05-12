@@ -1,17 +1,30 @@
-import axios from "axios";
+
 import { useState } from "react";
+import { loginAdmin } from "../../services/auth/AuthService";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 export default function LoginPage() {
     const [loginData, setLoginData] = useState({ email: "", password: "" });
+    const navigate = useNavigate();
 
     const onFormSubmit = async (event: any) => {
         event.preventDefault();
 
         console.log("Login Data : ", loginData);
 
-        const res = await axios.post("http://localhost:8000/api/auth/admin/login", loginData);
+        const data = await loginAdmin(loginData);
 
-        console.log("Response : ", res);
+        if (data.status === 200) {
+            // Navigate Dashboard
+            toast.success(data.message);
+            navigate('/dashboard');
+
+            localStorage.setItem('authAdminToken', data.result.token);
+        }
+        else {
+            toast.error(data.message);
+        }
 
     }
 
