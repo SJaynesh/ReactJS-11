@@ -87,7 +87,7 @@ module.exports.forgotPassword = async (req, res) => {
         const admin = await adminAuthService.fetchSingleAdmin({ email: req.body.email, isDelete: false, isActive: true }, false);
 
         if (!admin) {
-            return res.status(statusCode.BAD_REQUEST).json(errorResponse(statusCode.BAD_REQUEST, true, MSG.ADMIN_NOT_FOUND));
+            return res.json(errorResponse(statusCode.BAD_REQUEST, true, MSG.ADMIN_NOT_FOUND));
         }
 
         if (admin.attempt_expire < Date.now()) { // 11:17 < 09:00
@@ -95,7 +95,7 @@ module.exports.forgotPassword = async (req, res) => {
         }
 
         if (admin.attempt >= 3) { // 3 >= 3
-            return res.status(statusCode.BAD_REQUEST).json(errorResponse(statusCode.BAD_REQUEST, true, MSG.MANY_TIME_OTP));
+            return res.json(errorResponse(statusCode.BAD_REQUEST, true, MSG.MANY_TIME_OTP));
         }
 
         const OTP = Math.floor(100000 + Math.random() * 900000);
@@ -108,7 +108,7 @@ module.exports.forgotPassword = async (req, res) => {
 
         await adminAuthService.updateAdmin(admin.id, { OTP: OTP, OTP_Expire: expireOTPTime, attempt: admin.attempt, attempt_expire: new Date(Date.now() + 1000 * 60 * 60) });
 
-        return res.status(statusCode.OK).json(successResponse(statusCode.OK, false, MSG.OTP_SEND));
+        return res.json(successResponse(statusCode.OK, false, MSG.OTP_SEND));
 
     } catch (err) {
         console.log("Error : ", err);

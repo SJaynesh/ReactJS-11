@@ -2,14 +2,18 @@
 import { useState } from "react";
 import { loginAdmin } from "../../services/auth/AuthService";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { Loader2 } from "lucide-react";
 
 export default function LoginPage() {
     const [loginData, setLoginData] = useState({ email: "", password: "" });
+    const [loader, setLoader] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const onFormSubmit = async (event: any) => {
         event.preventDefault();
+
+        setLoader(true);
 
         console.log("Login Data : ", loginData);
 
@@ -25,6 +29,8 @@ export default function LoginPage() {
         else {
             toast.error(data.message);
         }
+
+        setLoader(false);
 
     }
 
@@ -97,18 +103,28 @@ export default function LoginPage() {
                             </div>
 
                             <div className="text-sm">
-                                <a href="#" className="font-semibold text-yellow-700 hover:text-yellow-600 transition-colors">
+                                <Link to={'/forgot-password'} className="font-semibold text-yellow-700 hover:text-yellow-600 transition-colors">
                                     Forgot password?
-                                </a>
+                                </Link>
                             </div>
                         </div>
 
                         <div>
                             <button
                                 type="submit"
-                                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-gray-900 bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 transition-all duration-200 uppercase tracking-wide"
+                                disabled={loader} // Prevent multiple submissions
+                                className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-gray-900 bg-yellow-400 transition-all duration-200 uppercase tracking-wide
+      ${loader ? "opacity-70 cursor-not-allowed" : "hover:bg-yellow-500 active:scale-[0.98]"}
+      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400`}
                             >
-                                Sign In
+                                {loader ? (
+                                    <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Signing in...
+                                    </>
+                                ) : (
+                                    "Sign In"
+                                )}
                             </button>
                         </div>
                     </form>

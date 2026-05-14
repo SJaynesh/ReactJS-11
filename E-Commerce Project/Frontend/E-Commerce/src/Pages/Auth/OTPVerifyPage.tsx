@@ -1,0 +1,126 @@
+import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router";
+import { Loader2, ArrowLeft } from "lucide-react";
+import { toast } from "react-toastify";
+
+export default function OTPVerifyPage() {
+    const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
+    const [loader, setLoader] = useState<boolean>(false);
+    const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+    const navigate = useNavigate();
+
+    // Focus first input on mount
+    useEffect(() => {
+        if (inputRefs.current[0]) {
+            inputRefs.current[0].focus();
+        }
+    }, []);
+
+    const handleChange = (element: HTMLInputElement, index: number) => {
+        if (isNaN(Number(element.value))) return;
+
+        const newOtp = [...otp];
+        newOtp[index] = element.value.substring(element.value.length - 1);
+        setOtp(newOtp);
+
+        // Move to next input if value is entered
+        if (element.value && index < 5 && inputRefs.current[index + 1]) {
+            inputRefs.current[index + 1]?.focus();
+        }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+        // Move to previous input on backspace if current is empty
+        if (e.key === "Backspace" && !otp[index] && index > 0 && inputRefs.current[index - 1]) {
+            inputRefs.current[index - 1]?.focus();
+        }
+    };
+
+    const onFormSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        const finalOtp = otp.join("");
+
+        if (finalOtp.length < 6) {
+            toast.error("Please enter the complete 6-digit OTP");
+            return;
+        }
+
+        setLoader(true);
+        try {
+            console.log("Verifying OTP:", finalOtp);
+            // Replace with your API call: const response = await verifyOtpAdmin({ otp: finalOtp });
+            toast.success("OTP Verified Successfully!");
+            navigate("/reset-password");
+        } catch (error) {
+            toast.error("Invalid OTP. Please try again.");
+        } finally {
+            setLoader(false);
+        }
+    };
+
+    return (
+        <div className="min-h-screen bg-amber-50/30 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+            <div className="sm:mx-auto sm:w-full sm:max-w-md">
+                <button
+                    onClick={() => navigate(-1)}
+                    className="flex items-center text-sm text-gray-500 hover:text-yellow-600 transition-colors mb-4"
+                >
+                    <ArrowLeft className="w-4 h-4 mr-1" /> Back to Login
+                </button>
+                <h2 className="text-center text-3xl font-extrabold text-gray-900 tracking-tight">
+                    Verify Identity
+                </h2>
+                <p className="mt-2 text-center text-sm text-gray-600">
+                    We've sent a 6-digit code to your email.
+                </p>
+            </div>
+
+            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                <div className="bg-white py-8 px-4 shadow-2xl shadow-yellow-100/50 sm:rounded-3xl sm:px-10 border border-yellow-100">
+                    <form onSubmit={onFormSubmit} className="space-y-8">
+                        <div className="flex justify-between gap-2">
+                            {otp.map((data, index) => (
+                                <input
+                                    key={index}
+                                    type="text"
+                                    maxLength={1}
+                                    ref={(el) => (inputRefs.current[index] = el)}
+                                    value={data}
+                                    onChange={(e) => handleChange(e.target, index)}
+                                    onKeyDown={(e) => handleKeyDown(e, index)}
+                                    className="w-12 h-14 text-center text-2xl font-bold border-2 border-gray-200 rounded-xl focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 outline-none transition-all"
+                                />
+                            ))}
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={loader}
+                            className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-gray-900 bg-yellow-400 transition-all duration-200 uppercase tracking-wide
+                                ${loader ? "opacity-70 cursor-not-allowed" : "hover:bg-yellow-500 active:scale-[0.98]"}
+                                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400`}
+                        >
+                            {loader ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    Verifying...
+                                </>
+                            ) : (
+                                "Verify OTP"
+                            )}
+                        </button>
+                    </form>
+
+                    <div className="mt-6 text-center">
+                        <p className="text-sm text-gray-600">
+                            Didn't receive the code?{" "}
+                            <button className="font-semibold text-yellow-700 hover:text-yellow-600">
+                                Resend
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
